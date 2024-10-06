@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import argparse
@@ -6,7 +8,7 @@ import fnmatch
 
 def load_ignore_patterns(ignore_file_path):
     """
-    Loads ignore patterns from the .projectinspector.ignore file.
+    Loads ignore patterns from the specified ignore file.
 
     Parameters:
         ignore_file_path (str): Path to the ignore file.
@@ -99,10 +101,19 @@ def list_files_with_contents(startpath, ignore_patterns, root):
             print("\n" + "-"*80 + "\n")
 
 def main():
-    parser = argparse.ArgumentParser(description="Project Folder Inspector with Ignore Functionality")
-    parser.add_argument('directory', nargs='?', default='.', 
-                        help='Path to the project directory (default: current directory)')
+    parser = argparse.ArgumentParser(
+        description="Project Folder Inspector with Ignore Functionality",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    # The first positional argument is the directory
+    parser.add_argument('directory', help='Path to the project directory to inspect')
+    # Optional argument for the ignore file
+    parser.add_argument('-i', '--ignore', default=None, 
+                        help='Path to the ignore file (default: .projectinspector.ignore in the project root)')
+    
     args = parser.parse_args()
+
+    # Get absolute paths for the directory and ignore file
     startpath = os.path.abspath(args.directory)
 
     if not os.path.exists(startpath):
@@ -112,7 +123,8 @@ def main():
         print(f"Error: The path '{startpath}' is not a directory.")
         sys.exit(1)
 
-    ignore_file = os.path.join(startpath, '.projectinspector.ignore')
+    # Determine the ignore file path
+    ignore_file = args.ignore if args.ignore else os.path.join(startpath, '.projectinspector.ignore')
     ignore_patterns = load_ignore_patterns(ignore_file)
 
     if ignore_patterns:
