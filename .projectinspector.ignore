@@ -1,0 +1,32 @@
+# Ignore build directories
+build/
+
+# Ignore temporary folders
+tmp/
+*.temp/
+
+# Ignore hidden directories
+.cache/
+data/
+data_bck
+dist/
+docs/
+images/
+main/
+node_modules/
+seeders/
+.env.example
+backup_parkett.sql
+backup_parkett.sql.bck
+HOWTOINSTALLDATABASE.md
+LICENSE
+pnpm-lock.yaml
+project_inspector.Propertyproject_strcuture.txt
+
+.git/
+
+project_inspector.py
+.prettierignore
+.prettierrc
+.projectinspector.ignore
+project_structure.txt
